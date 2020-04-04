@@ -24,7 +24,7 @@ public class Paciente implements Comparable<Paciente>{
 	}
 
 	public String nextPacient(){
-		return name + " " + condition + " " + priority;
+		return ">Nombre: " + name + "\n>Condicion: " + condition + "\n>Prioridad: " + priority;
 	}
 
 	public int compareTo(Paciente that){

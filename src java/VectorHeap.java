@@ -10,8 +10,8 @@
 import java.lang.*;
 import java.util.Vector;
 
-public class VectorHeap<E extends Comparable<E>> implements PriorityQueue<E>{
-	protected Vector<E> data; // the data, kept in heap order
+public class VectorHeap<E extends Comparable<E>> implements PriorityQueueInterface<E>{
+	protected Vector<E> data; // Datos guardados
 
 	public VectorHeap(){
 		data = new Vector<E>();
@@ -21,11 +21,12 @@ public class VectorHeap<E extends Comparable<E>> implements PriorityQueue<E>{
 		int i;
 		data = new Vector<E>(v.size());
 	
-		for (i = 0; i < v.size(); i++){ // add elements to heap
+		for (i = 0; i < v.size(); i++){ // Se agrega el elemento a los datos
 			add(v.get(i));
 		}
 	}
 	
+	/*ORDEN*/
 	protected static int parent(int i){
 		return (i-1)/2;
 	}
@@ -37,31 +38,21 @@ public class VectorHeap<E extends Comparable<E>> implements PriorityQueue<E>{
 	protected static int right(int i){
 		return 2*(i+1);
 	}
-
-protected void percolateUp(int leaf)
-	// pre: 0 <= leaf < size
-	// post: moves node at index leaf up to appropriate position
-	{
-		int parent = parent(leaf);
-		E value = data.get(leaf);
-		while (leaf > 0 &&
+	//Se guardan en orden
+	protected void percolateUp(int hoja){
+		int parent = parent(hoja);
+		E value = data.get(hoja);
+		while (hoja > 0 &&
 		(value.compareTo(data.get(parent)) < 0))
 		{
-			data.set(leaf,data.get(parent));
-			leaf = parent;
-			parent = parent(leaf);
+			data.set(hoja,data.get(parent));
+			hoja = parent;
+			parent = parent(hoja);
 		}
-		data.set(leaf,value);
+		data.set(hoja,value);
 	}
 
-	public void add(E value)
-	// pre: value is non-null comparable
-	// post: value is added to priority queue
-	{
-		data.add(value);
-		percolateUp(data.size()-1);
-	}
-
+	//Se corren los datos como corresponda
 	protected void pushDownRoot(int root){
 		int heapSize = data.size();
 		E value = data.get(root);
@@ -75,34 +66,41 @@ protected void percolateUp(int leaf)
 				{
 					childpos++;
 				}
-			// Assert: childpos indexes smaller of two children
 			if ((data.get(childpos)).compareTo
 				(value) < 0)
 			{
 				data.set(root,data.get(childpos));
-				root = childpos; // keep moving down
-			} else { // found right location
+				root = childpos; 
+			} else { 
 				data.set(root,value);
 				return;
 			}
-			} else { // at a leaf! insert and halt
+			} else { 
 				data.set(root,value);
 				return;
 			}
 		}
 	}
 
+
+	/*METODOS INTERFACE*/
+	public void add(E value){
+		data.add(value);
+		percolateUp(data.size()-1);
+	}
+
 	public E remove(){
-		E minVal = getFirst();
+		E minVal = data.get(0);
+
 		data.set(0,data.get(data.size()-1));
 		data.setSize(data.size()-1);
-		if (data.size() > 1) pushDownRoot(0);
+
+		if (data.size() > 1){
+			pushDownRoot(0);
+		}
 		return minVal;
 	}
 
-	public E getFirst()	{
-		return data.get(0);
-	}
 
 	public int size(){
 		return data.size();

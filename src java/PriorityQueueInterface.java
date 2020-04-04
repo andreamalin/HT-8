@@ -5,15 +5,12 @@
 *Clase encargada de los metodos de un priority queue
 *
 *@author Andrea Amaya #19357
-*Codigo adaptado de: Java Structures: Data Structures pagina 315 y 316
+*Codigo adaptado de: Java Structures: Data Structures
+y Java Platform SE 7
 **********************************************************/
 import java.lang.*;
 
-public interface PriorityQueue<E extends Comparable<E>>{
-	//Pre: El queue no esta vacio
-	//Post: Se retorna el valor mas pequeno dentro del queue
-	public E getFirst();
-
+public interface PriorityQueueInterface<E extends Comparable<E>>{
 	//Pre: El queue no esta vacio
 	//Post: Se remueve y retorna el valor mas pequeno dentro del queue
 	public E remove();
@@ -27,5 +24,4 @@ public interface PriorityQueue<E extends Comparable<E>>{
 
 	//Post: Se retorna la cantidad de elementos dentro del queue
 	public int size();
-
 }
